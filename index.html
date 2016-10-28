@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>商品管理系统</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body>
+		<div class="C_wrap">
+			<div class="container" id="container">
+				<form action="">
+					<fieldset id="">
+						<legend class="">商品管理系统</legend>
+						<div class="input-group input_info fr">
+							<input type="text" class="btn btn-default" v-model="search" debounce="1000"/>
+							<select class="btn" v-model="shopType" @change="changeShopType(shopType)">
+								<option v-for="item in showShopType"  :value="item.value" >
+									{{item.type}}
+								</option>
+							</select>
+							<select class="btn" v-model="searchType" @change="changeSearchType(searchType)">
+								<option v-for="item in showSearchType" :value="item.value">
+									{{item.type}}
+								</option>
+							</select>
+							<select class="btn" v-model="sortType" @change="changeSortType(sortType)">
+								<option v-for="item in showSortType" :value="item.value">
+									{{item.type}}
+								</option>
+							</select>
+							<mark :class="{'active':isActive}" class="sort" @click="sortWay(1)">升序</mark>
+							<mark :class="{'active':!isActive}" class="sort"  @click="sortWay(2)">降序</mark>
+							<input type="button" class="btn btn-danger" @click="getResult" value="搜索"></input>
+						</div>
+						<table class="table table-striped">
+							<thead>
+								<tr class="">
+									<td>商品名称</td>
+									<td>商品单价</td>
+									<td>商品分类</td>
+									<td>商品库存</td>
+									<td>编辑</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in shop | filterBy search in searchTypeArr | orderBy sortTypeArr sortTypeNum" v-show="isShow(item)">
+									<td><span v-show="isEdit(item,showPanel)">{{item.sname}}</span><input type="text" v-model="newName" :value="item.sname" v-show="isEdit(item,editPanel)"/></td>
+									<td><span v-show="isEdit(item,showPanel)">{{item.price | currency "￥"}}</span><input type="text" v-model="newPrice"  :value="item.price" v-show="isEdit(item,editPanel)" /></td>
+									<td><span v-show="isEdit(item,showPanel)">{{item.group}}</span><input type="text" v-model="newGroup" :value="item.group" v-show="isEdit(item,editPanel)"/></td>
+									<td><span v-show="isEdit(item,showPanel)">{{item.allNum}}</span><input type="text" v-model="newAllNum"  :value="item.allNum" v-show="isEdit(item,editPanel)"/></td>
+									<td><a href="javascript:;" @click.prevent="edit(item,$index,$event)">修改</a>/<a href="javascript:;" @click.prevent="deleteShop(item)">删除</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</body>
+	<script src="js/lib/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+</html>

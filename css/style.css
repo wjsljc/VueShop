@@ -1,0 +1,12 @@
+table{
+	text-align: center;
+}
+table input{
+	text-align: center;
+}
+.sort{
+	cursor: pointer;
+}
+.active{
+	background-color: #F5EAAD;
+}
